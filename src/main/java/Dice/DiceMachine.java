@@ -4,9 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import javax.swing.text.rtf.RTFEditorKit;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static Dice.DIE_RES.*;
@@ -87,7 +85,7 @@ public class DiceMachine {
     }
 
     public ArrayList<DIE_COL> genAttackPoolV1() {
-        return switch (ThreadLocalRandom.current().nextInt(5)){
+        ArrayList<DIE_COL> attackPool = switch (ThreadLocalRandom.current().nextInt(5)){
             // Rebel Troopers
             case 0 -> new ArrayList<>(Arrays.asList(
                     aBLACK, aBLACK, aBLACK, aBLACK, aBLACK, // 4 + 1 Rebels
@@ -115,5 +113,14 @@ public class DiceMachine {
                     aWHITE, aWHITE, aWHITE, aWHITE, aWHITE, aWHITE));
 
         };
+
+        Collections.shuffle(attackPool);
+        int diceDrop = ThreadLocalRandom.current().nextInt(4);
+        for (int i = 0; i <= diceDrop; i++){
+            int last = List.of().lastIndexOf(diceDrop);
+            attackPool.remove(++last);
+        }
+        Collections.sort(attackPool);
+        return attackPool;
     }
 }

@@ -15,10 +15,16 @@ public class Main {
         int cover = ThreadLocalRandom.current().nextInt(2);
         DiceReader diceReader = new DiceReader();
 
+//        diceReader.readDice(
+//                new ArrayList<>(
+//                        Arrays.asList(dWHITE, dRED)
+//                )
+//        );
+
         DiceMachine diceMachine = new DiceMachine();
         ArrayList<DIE_COL> arrs = diceMachine.genAttackPoolV1();
         System.out.println("Dice Pool");
-        arrs.forEach(System.out::println);
+        diceReader.readDice(arrs);
         System.out.println("After Roll");
         List<DIE_RES> rolledDice = diceMachine.rollDice(arrs);
         diceReader.readAttack(rolledDice);
