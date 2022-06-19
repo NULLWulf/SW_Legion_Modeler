@@ -1,9 +1,5 @@
 package Dice;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-
-import javax.swing.text.rtf.RTFEditorKit;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -24,7 +20,7 @@ public class DiceMachine {
     public void attackPhaseProcess(){
     }
 
-    public DIE_RES rollDie(DIE_COL die){
+    public DIE_RES rollDie(DIE_RES die){
         return switch (die){
             case aRED -> redAttack[ThreadLocalRandom.current().nextInt(8)];
             case aBLACK -> blackAttack[ThreadLocalRandom.current().nextInt(8)];
@@ -34,8 +30,8 @@ public class DiceMachine {
         };
     }
 
-    public List<DIE_RES> rollDice(List<DIE_COL> dicePool) {
-        List<DIE_RES> rolledDice = new ArrayList<>();
+    public ArrayList<DIE_RES> rollDice(ArrayList<DIE_RES> dicePool) {
+        ArrayList<DIE_RES> rolledDice = new ArrayList<>();
         dicePool.forEach(e->{
             rolledDice.add(rollDie(e));
         });
@@ -43,7 +39,7 @@ public class DiceMachine {
     }
 
     // Takes dicePool as List and value to surge to
-    public ArrayList<DIE_RES> surgeTo(List<DIE_RES> dicePool, DIE_RES convertTo) {
+    public ArrayList<DIE_RES> surgeTo(ArrayList<DIE_RES> dicePool, DIE_RES convertTo) {
         // Create New Modified Pool
         ArrayList<DIE_RES> modifiedPool = new ArrayList<>();
         dicePool.forEach(e->{
@@ -122,5 +118,20 @@ public class DiceMachine {
         }
         Collections.sort(attackPool);
         return attackPool;
+    }
+
+    public ArrayList<DIE_RES> rollDefense(DIE_COL defDiceColor,Boolean surge, ArrayList<DIE_RES> attackDicePool) {
+        ArrayList<DIE_COL> defensePool = new ArrayList<DIE_COL>();
+        attackDicePool.forEach(die_res -> defensePool.add(defDiceColor));
+
+
+
+        ArrayList<DIE_RES> defenseRoll = rollDice(attackDicePool);
+        defenseRoll.forEach(System.out::println);
+        if(surge){
+            return surgeTo(defenseRoll,BLOCK);
+        }else{
+            return defenseRoll;
+        }
     }
 }

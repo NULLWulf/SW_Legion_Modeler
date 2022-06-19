@@ -14,26 +14,22 @@ public class Main {
     public static void main(String[] args) {
         int cover = ThreadLocalRandom.current().nextInt(2);
         DiceReader diceReader = new DiceReader();
-
-//        diceReader.readDice(
-//                new ArrayList<>(
-//                        Arrays.asList(dWHITE, dRED)
-//                )
-//        );
-
         DiceMachine diceMachine = new DiceMachine();
         ArrayList<DIE_COL> arrs = diceMachine.genAttackPoolV1();
         System.out.println("Dice Pool");
         diceReader.readDice(arrs);
         System.out.println("After Roll");
-        List<DIE_RES> rolledDice = diceMachine.rollDice(arrs);
+        ArrayList<DIE_RES> rolledDice = diceMachine.rollDice(arrs);
         diceReader.readAttack(rolledDice);
         System.out.println("Natural Surges");
         rolledDice = diceMachine.surgeTo(rolledDice, CRIT);
         diceReader.readAttack(rolledDice);
         System.out.printf("After Cover %s\n",cover);
-        rolledDice = diceMachine.removeCover((ArrayList<DIE_RES>) rolledDice, cover);
+        rolledDice = diceMachine.removeCover(rolledDice, cover);
         diceReader.readAttack(rolledDice);
+
+        ArrayList<DIE_RES> defended = diceMachine.rollDefense(dRED,false,rolledDice);
+        diceReader.readAttack(defended);
     }
 
 }
